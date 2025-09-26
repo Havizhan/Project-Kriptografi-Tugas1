@@ -34,20 +34,42 @@ Aplikasi ini mengimplementasikan 6 algoritma kriptografi klasik:
 - ✅ Validasi kunci untuk setiap algoritma
 - ✅ Dukungan file hingga 16MB
 
-## Instalasi
+## Instalasi & Menjalankan (Windows)
 
-1. Clone atau download repository ini
-2. Install dependencies:
+### 1) Prasyarat
+- Python 3.10+ terpasang (cek dengan `python --version`)
+- Pip sudah tersedia (biasanya ikut terpasang dengan Python)
+
+### 2) (Opsional tapi disarankan) Buat Virtual Environment
+```bash
+python -m venv .venv
+```
+Aktifkan venv:
+```bash
+.venv\Scripts\activate
+```
+
+### 3) Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Jalankan aplikasi:
+### 4) Jalankan Aplikasi Web
 ```bash
 python app.py
 ```
+Kemudian buka browser ke: `http://localhost:5000`
 
-4. Buka browser dan akses: `http://localhost:5000`
+### 5) (Opsional) Jalankan Test Cipher di CLI
+```bash
+python test_ciphers.py
+```
+
+### 6) (Opsional) Generate Kunci One-Time Pad
+```bash
+python generate_otp_key.py
+```
+File `otp_key.txt` dan `otp_key_large.txt` akan dibuat di folder proyek.
 
 ## Cara Penggunaan
 
@@ -128,6 +150,25 @@ kriptosystem/
 4. Upload file yang akan dienkripsi
 5. Klik "Enkripsi"
 6. Download file hasil enkripsi
+
+## Troubleshooting
+
+- "ModuleNotFoundError: No module named 'numpy'" → Pastikan langkah install dependencies berhasil: `pip install -r requirements.txt` (aktifkan venv bila ada).
+- Port 5000 sudah dipakai → Jalankan dengan port lain: `set FLASK_RUN_PORT=5001` lalu `python app.py` atau ubah `port` di `app.py`.
+- Perubahan frontend tidak terlihat → Hard refresh browser (Ctrl+F5) untuk membersihkan cache.
+- Upload file besar gagal → Batas ukuran file di-set 16MB (lihat `app.config['MAX_CONTENT_LENGTH']`). Naikkan sesuai kebutuhan.
+- Hill/Permutation padding → Algoritma klasik menggunakan padding. Hasil dekripsi mungkin menyisakan huruf padding di akhir (mis. 'X').
+
+## Catatan Kunci & Validasi Singkat
+- Shift: masukkan integer 0–25.
+- Substitution: 26 huruf unik (A–Z) tanpa duplikasi.
+- Affine: format `a,b` dengan `gcd(a,26)=1` (contoh aman: a∈{1,3,5,7,9,11,15,17,19,21,23,25}).
+- Vigenere: huruf saja (A–Z), karakter lain diabaikan.
+- Hill: panjang kunci harus perfect square (4, 9, 16, ...). Contoh 3x3: `GYBNQKURP`.
+- Permutation: urutan indeks 0..n-1 (contoh `2,0,1`).
+
+## Struktur Proyek (Ringkas)
+Lihat bagian Struktur File untuk rincian folder `templates/` dan `static/` (CSS/JS terpisah).
 
 ## Lisensi
 
